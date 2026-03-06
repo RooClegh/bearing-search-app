@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import random
+import time
 
 # 페이지 설정
 st.set_page_config(page_title="베어링 형번 검색", layout="wide")
@@ -32,6 +33,12 @@ if search_input:
         "카탈로그를 뒤지는 중...",
         "베어링 사양을 확인 중..."
     ]
+
+    with st.spinner(random.choice(messages)):
+        time.sleep(1) # [테스트용] 1초간 강제로 멈추게 하여 문구를 확인해 보세요
+        
+        search_term = search_input.strip().upper()
+        # ... (이하 동일)
     
     # 검색 로직 (랜덤 로딩 문구 적용)
     with st.spinner(random.choice(messages)):
