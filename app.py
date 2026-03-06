@@ -1,10 +1,8 @@
 import streamlit as st
 import pandas as pd
 
-# 제목 설정
-st.title("베어링 형번 검색")
-
-# 제목 아래 작은 글씨로 상태 알림
+# 제목에 이모티콘 추가 및 아래에 캡션(작은 글씨) 배치
+st.title("⚙️ 베어링 형번 검색")
 st.caption("베어링 자료를 추가 중입니다.")
 
 @st.cache_data
@@ -14,7 +12,6 @@ def load_data():
 
 df = load_data()
 
-# ... (이후 검색 로직 코드는 동일)
 
 # 1. F열부터 L열까지의 인덱스 확인 (CSV의 5번째 열부터 11번째 열까지)
 # 파이썬은 0부터 시작하므로 F열은 index 5, L열은 index 11입니다.
