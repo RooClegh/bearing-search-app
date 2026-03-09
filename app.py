@@ -46,11 +46,30 @@ if search_input:
         mask = target_columns.astype(str).apply(lambda x: x.str.contains(search_term, case=False, na=False)).any(axis=1)
         results = df[mask].copy()
     
-    if not results.empty:
-        # 검색 결과 출력
-        results.index = range(1, len(results) + 1)
-        results.index.name = '순번'
-        st.success(f"총 {len(results)}건의 결과를 찾았습니다.")
+if not results.empty:
+        st.success(f"✅ 총 {len(results)}건의 결과를 찾았습니다.")
         st.dataframe(results, use_container_width=True)
+        st.info("💡 행을 클릭하면 상세 내용을 확인하거나 복사할 수 있습니다.")
+
     else:
-        st.error("일치하는 형번이 없습니다.")
+        # 자료가 없을 경우 직원들을 위한 안내
+        st.warning("🧐 검색하신 형번이 데이터베이스에 없습니다.")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            # 클릭 시 바로 메일 창이 뜨는 버튼 (받는 사람과 제목 자동 입력)
+            email_link = "mailto:dmbrg0035@naver.com?subject=[베어링 형번 문의] 자료 없음"
+            st.link_button("📧 담당자에게 이메일 문의하기", email_link)
+        with col2:
+            # 검색어 초기화 또는 재시도 유도
+            if st.button("🔄 다시 검색하기"):
+                st.rerun()
+            
+        # 추가 안내 사항 (직원들이 실수하기 쉬운 부분)
+        st.markdown(f"""
+        ---
+        **검색 팁 (자료가 나오지 않을 때):**
+        1. **'{search_input}'**의 오타가 없는지 확인해 보세요.
+        2. 접미사(ZZ, DDU 등)를 제외하고 **기본 숫자**만으로 검색해 보세요. (예: 6204ZZ ➔ 6204)
+        3. 신규 형번이거나 특수 베어링인 경우 위 이메일(**dmbrg0035@naver.com**)로 자료를 요청해 주세요.
+        """)
